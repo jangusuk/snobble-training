@@ -3,58 +3,36 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-  <meta name="theme-color" content="#000000"/>
   <title>SNOBBLE TRAINING</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #000;
-      min-height: 100vh;
-      -webkit-tap-highlight-color: transparent;
-    }
-    #root { min-height: 100vh; }
-    #loading {
-      position: fixed; inset: 0;
-      background: #000;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 16px; color: #fff;
-      font-size: 14px; letter-spacing: 2px;
-    }
-    .spinner {
-      width: 32px; height: 32px;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#000;min-height:100vh;-webkit-tap-highlight-color:transparent}
+    #root{min-height:100vh}
+    #loading{position:fixed;inset:0;background:#000;display:flex;align-items:center;
+      justify-content:center;flex-direction:column;gap:16px;color:#fff;
+      font-size:12px;letter-spacing:3px;font-family:-apple-system,sans-serif}
+    .spin{width:28px;height:28px;border-radius:50%;
+      border:2px solid rgba(255,255,255,0.15);border-top-color:#fff;
+      animation:s .7s linear infinite}
+    @keyframes s{to{transform:rotate(360deg)}}
   </style>
 </head>
 <body>
-  <div id="loading">
-    <div class="spinner"></div>
-    <div>SNOBBLE TRAINING</div>
-  </div>
+  <div id="loading"><div class="spin"></div>SNOBBLE TRAINING</div>
   <div id="root"></div>
-
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="text/babel" src="./SnobbleApp.jsx"></script>
+  <script type="text/babel" src="./SnobbleApp_deploy.jsx" data-presets="react"></script>
   <script>
-    window.addEventListener('load', function() {
-      var check = setInterval(function() {
-        if (window.App) {
-          clearInterval(check);
-          document.getElementById('loading').style.display = 'none';
-          var root = ReactDOM.createRoot(document.getElementById('root'));
-          root.render(React.createElement(window.App));
-        }
-      }, 100);
-    });
+    (function check(){
+      if(window.App){
+        document.getElementById('loading').style.display='none';
+        ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(window.App));
+      } else {
+        setTimeout(check, 300);
+      }
+    })();
   </script>
 </body>
 </html>
